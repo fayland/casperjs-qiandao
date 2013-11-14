@@ -36,7 +36,10 @@ casper.then ->
 	, ->
 		require('utils').dump(this.getElementInfo('div.have-take-panel'));
 
-casper.then ->
-	@capture 'done.png', {top: 0, left: 0, width: 800, height: 600 }
+# casper.then ->
+# 	@capture 'done.png', {top: 0, left: 0, width: 800, height: 600 }
+
+casper.thenOpen 'http://jf.etao.com/getCredit.htm', ->
+	require('utils').dump(this.getElementInfo('p.news'));
 
 casper.run()
