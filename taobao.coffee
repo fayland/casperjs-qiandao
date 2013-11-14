@@ -1,18 +1,16 @@
 casper = require('casper').create({
 	verbose: true,
 	pageSettings: {
-        loadImages: true,
-        loadPlugins: false,
-        userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36'
-    },
-    # clientScripts: ["includes/jquery.min.js"]
+		loadImages: true,
+		loadPlugins: false,
+		userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36'
+	},
+	# clientScripts: ["includes/jquery.min.js"]
 	logLevel: 'debug'
 })
-xpath  = require('casper').selectXPath
 
 username = casper.cli.get("username")
 password = casper.cli.get("password")
-
 if (username == undefined || password == undefined)
 	casper.die("Please set username/password with cli options: --username=blabla --password=fixme")
 
