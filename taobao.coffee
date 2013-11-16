@@ -32,9 +32,12 @@ casper.wait 4000
 
 casper.then ->
 	@waitFor ->
-		@exists('div.have-take-panel')
+		@exists('div.have-take-panel') or @exists('div.vip-overlay-content')
 	, ->
-		require('utils').dump(this.getElementInfo('div.have-take-panel'));
+		if @exists('div.have-take-panel')
+			require('utils').dump(this.getElementInfo('div.have-take-panel'));
+		else
+			require('utils').dump(this.getElementInfo('div.vip-overlay-content'));
 
 # casper.then ->
 # 	@capture 'done.png', {top: 0, left: 0, width: 800, height: 600 }
