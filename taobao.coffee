@@ -5,7 +5,6 @@ casper = require('casper').create({
 		loadPlugins: false,
 		userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36'
 	},
-	# clientScripts: ["includes/jquery.min.js"]
 	logLevel: 'debug'
 })
 
