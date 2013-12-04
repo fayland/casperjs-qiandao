@@ -14,30 +14,21 @@ password = casper.cli.get("password")
 if (username == undefined || password == undefined)
 	casper.die("Please set username/password with cli options: --username=blabla --password=fixme")
 
-casper.start 'http://vip.taobao.com/vip_home.htm?auto_take=true', ->
+casper.start 'https://login.taobao.com/member/login.jhtml?redirectURL=http%3A%2F%2Fvip.taobao.com%2Fvip_home.htm%3Fauto_take%3Dtrue', ->
 	@viewport(800, 600)
-	@click 'a.J_GetCoinBtn'
-casper.wait 2000
-
-casper.withFrame 'J_loginiframe', ->
-	@waitFor ->
-		@exists('#J_StaticForm')
-	, ->
-		@fill 'form#J_StaticForm', {
-			TPL_username: username,
-			TPL_password: password
-		}
-		@click 'button#J_SubmitStatic'
-casper.wait 4000
+	# login
+	@fill 'form#J_StaticForm', {
+		TPL_username: username,
+		TPL_password: password
+	}
+	@click 'button#J_SubmitStatic'
 
 casper.then ->
+	# require('utils').dump(this.page)
 	@waitFor ->
-		@exists('div.have-take-panel') or @exists('div.vip-overlay-content')
+		@exists('div.J_UserCoinPanel')
 	, ->
-		if @exists('div.have-take-panel')
-			require('utils').dump(this.getElementInfo('div.have-take-panel'));
-		else
-			require('utils').dump(this.getElementInfo('div.vip-overlay-content'));
+		require('utils').dump(this.getElementInfo('div.J_UserCoinPanel'));
 
 # casper.then ->
 # 	@capture 'done.png', {top: 0, left: 0, width: 800, height: 600 }
