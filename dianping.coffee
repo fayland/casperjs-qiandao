@@ -7,7 +7,6 @@ casper = require('casper').create({
     },
     logLevel: 'debug'
 })
-{spawn, execFile} = require "child_process"
 
 username = casper.cli.get("username")
 password = casper.cli.get("password")
@@ -16,14 +15,14 @@ if (username == undefined || password == undefined)
 
 casper.start 'http://weibo.com/', ->
     if @exists 'div.login_btn'
-        console.log 'Login ...'
+        @log 'Login ...', 'info'
         @fillSelectors 'body', {
             'input[name="username"]': username,
             'input[name="password"]': password
         }
         @click 'a.W_btn_g'
     else
-        console.log 'It seems we have logined.'
+        @log 'It seems we have logined.', 'info'
 casper.wait 4000
 
 casper.thenOpen 'http://www.dianping.com/login?redir=http%3A%2F%2Fwww.dianping.com%2F', ->
