@@ -32,13 +32,13 @@ casper.wait 4000
 
 ## tmall
 casper.then ->
-    if @visible('div.qd_fail2')
-        @echo 'ALREADY GOT IT!'
-    else if @visible('div.qd_fail')
-        @echo 'FAILED!'
-    else if @visible('div.qd_success')
-        @echo 'SUCCESS!'
+
+    if @visible('div.tc_pic3_a')
+        @log 'ALREADY GOT IT!', 'info'
+    else if @visible('div.tc_pic1_a')
+        @log 'SUCCESS!', 'info'
     else
-        @echo 'UNKNOWN!!!!'
+        @log 'UNKNOWN!!!!', 'info'
+        require('utils').dump(this.getElementInfo('div.header_news'));
 
 casper.run()
