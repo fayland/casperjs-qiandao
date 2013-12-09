@@ -36,6 +36,8 @@ casper.then ->
     , ->
         if @exists('span.J_signbtn')
             @click 'span.J_signbtn > a.btn-txt'
+            casper.wait 2000, ->
+                require('utils').dump(this.getElementInfo('div.b-check'));
         else
             require('utils').dump(this.getElementInfo('div.b-check'));
 

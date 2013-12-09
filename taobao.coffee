@@ -13,8 +13,9 @@ password = casper.cli.get("password")
 if (username == undefined || password == undefined)
 	casper.die("Please set username/password with cli options: --username=blabla --password=fixme")
 
-casper.start 'https://login.taobao.com/member/login.jhtml', ->
+casper.start 'http://i.taobao.com/my_taobao.htm', ->
 	@viewport(800, 600)
+	@log 'Login ...'
 	# login
 	@fill 'form#J_StaticForm', {
 		TPL_username: username,
@@ -23,12 +24,17 @@ casper.start 'https://login.taobao.com/member/login.jhtml', ->
 	@click 'button#J_SubmitStatic'
 casper.wait 4000
 
-casper.thenOpen 'http://vip.taobao.com/vip_home.htm?auto_take=true', ->
-	@wait 4000
-	# require('utils').dump(this.page)
+casper.then ->
 	@waitFor ->
-		@exists('div.J_UserCoinPanel')
+		@exists 'div.taojinbi-img'
 	, ->
+		@click 'div.taojinbi-img'
+casper.wait 4000
+
+casper.thenOpen 'http://vip.taobao.com/vip_home.htm', ->
+	# just wait
+	@wait 4000, ->
+		# require('utils').dump(this.page)
 		require('utils').dump(this.getElementInfo('div.J_UserCoinPanel'));
 
 # casper.then ->
