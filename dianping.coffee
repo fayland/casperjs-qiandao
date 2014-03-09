@@ -13,22 +13,25 @@ password = casper.cli.get("password")
 if (username == undefined || password == undefined)
     casper.die("Please set weibo username/password with cli options: --username=blabla --password=fixme")
 
-casper.start 'http://weibo.com/', ->
-    if @exists 'div.login_btn'
-        @log 'Login ...', 'info'
-        @fillSelectors 'body', {
-            'input[name="username"]': username,
-            'input[name="password"]': password
-        }
-        @click 'a.W_btn_g'
-    else
-        @log 'It seems we have logined.', 'info'
-casper.wait 4000
-
-casper.thenOpen 'http://www.dianping.com/login?redir=http%3A%2F%2Fwww.dianping.com%2F', ->
+casper.start 'http://www.dianping.com/login', ->
     # use weibo login, no captcha
-    @click '#btSinaLogin'
-casper.wait 4000
+    if @exists '#btSinaLogin'
+        @log 'Found Weibo login link...', 'info'
+        @click '#btSinaLogin'
+
+casper.then ->
+    if @exists 'a.WB_btn_login'
+        @log 'Found login BUTTON, ready to login', 'info'
+        @fill 'body', {
+            'userId': username,
+            'passwd': password
+        }
+
+        @wait 5000, ->
+            @click '.WB_btn_login'
+
+casper.wait 8000, ->
+  @log 'Wait login done', 'debug'
 
 casper.then ->
     @waitFor ->
